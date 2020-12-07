@@ -1,3 +1,5 @@
+// COUNT THE NO OF SUBSETS WITH GIVEN DIFFERENCE
+
 #include<bits/stdc++.h>
 using namespace std;
 

@@ -1,3 +1,5 @@
+// COUNT OF SUBSETS WITH A GIVEN SUM
+
 #include<bits/stdc++.h>
 using namespace std;
 

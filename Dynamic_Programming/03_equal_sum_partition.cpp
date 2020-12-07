@@ -1,3 +1,5 @@
+// EQUAL SUM PARTITION PROBLEM
+
 #include<bits/stdc++.h>
 using namespace std;
 
