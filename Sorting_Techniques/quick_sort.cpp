@@ -1,74 +1,155 @@
-/* C++ implementation of QuickSort */
-#include <bits/stdc++.h> 
-using namespace std; 
+// Quick sort algorithm
+// Note : see explanation below the code
 
-// A utility function to swap two elements 
-void swap(int* a, int* b) 
-{ 
-	int t = *a; 
-	*a = *b; 
-	*b = t; 
-} 
+#include <iostream>
+using namespace std;
 
-/* This function takes last element as pivot, places 
-the pivot element at its correct position in sorted 
-array, and places all smaller (smaller than pivot) 
-to left of pivot and all greater elements to right 
-of pivot */
-int partition (int arr[], int low, int high) 
-{ 
-	int pivot = arr[high]; // pivot 
-	int i = (low - 1); // Index of smaller element 
+void swap(int *a, int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
-	for (int j = low; j <= high - 1; j++) 
-	{ 
-		// If current element is smaller than the pivot 
-		if (arr[j] < pivot) 
-		{ 
-			i++; // increment index of smaller element 
-			swap(&arr[i], &arr[j]); 
-		} 
-	} 
-	swap(&arr[i + 1], &arr[high]); 
-	return (i + 1); 
-} 
+int partition(int arr[], int first, int last){
+    int pivot = first;
+    int i, j = first;
+    
+    for (int i = first + 1; i <= last; i++){
+        if (arr[i] <= arr[pivot]){
+            j++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[j], arr[pivot]);
+    return j;
+}
 
-/* The main function that implements QuickSort 
-arr[] --> Array to be sorted, 
-low --> Starting index, 
-high --> Ending index */
-void quickSort(int arr[], int low, int high) 
-{ 
-	if (low < high) 
-	{ 
-		// pi is partitioning index, arr[p] is now at right place
-		int pi = partition(arr, low, high); 
+void quick_sort(int arr[], int l, int r){
+    // base condition
+    if (l >= r){
+        return;
+    }
+    
+    int m = partition(arr, l, r);
+    // now arr[m] is in final position and
+    // left to mth element are less than arr[m]
+    // right to mth element are greater or equal compared to arr[m]
+    
+    // then apply same procedure to left and right
+    // subarrays recursively
+    quick_sort(arr, l, m - 1);
+    quick_sort(arr, m + 1, r);
+}
 
-		// Separately sort elements before 
-		// partition and after partition 
-		quickSort(arr, low, pi - 1); 
-		quickSort(arr, pi + 1, high); 
-	} 
-} 
+void printArray(int A[], int size)
+{
+	for (int i = 0; i < size; i++)
+		cout << A[i] << " ";
+}
 
-// Function to print an array 
-void printArray(int arr[], int size) 
-{ 
-	int i; 
-	for (i = 0; i < size; i++) 
-		cout << arr[i] << " "; 
-	cout << endl; 
-} 
+int main()
+{
+    int arr[] = { 6 , 4 , 8 , 2 , 9 , 3 , 9 , 4 , 7 , 6 , 1 };
+	int arr_size = sizeof(arr) / sizeof(arr[0]);
+	quick_sort(arr, 0, arr_size-1);
+	printArray(arr, arr_size);
+    return 0;
+}
 
-// Driver Code 
-int main() 
-{ 
-	int arr[] = {10, 7, 8, 9, 1, 5}; 
-	int n = sizeof(arr) / sizeof(arr[0]); 
-	quickSort(arr, 0, n - 1); 
-	cout << "Sorted array: \n"; 
-	printArray(arr, n); 
-	return 0; 
-} 
 
-// This code is contributed by rathbhupendra 
+/**********************************************************************************
+
+Explanation
+
+arr = { 6 , 4 , 8 , 2 , 9 , 3 , 9 , 4 , 7 , 6 , 1 }
+
+1)  pivot = p = 6       pivot is first element
+    i = first + 1       i checks every element with pivot
+    j = first           when i reaches last, j will be the final position of pivot
+    
+    1)  p
+        6   4   8   2   9   3   9   4   7   6   1
+        j   i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+    
+    2)  p
+        6   4   8   2   9   3   9   4   7   6   1
+        j       i
+        check : a[i] <= a[p] -> false
+                i++
+        
+    3)  p
+        6   4   8   2   9   3   9   4   7   6   1
+            j       i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+        
+    4)  p
+        6   4   2   8   9   3   9   4   7   6   1
+                j       i
+        check : a[i] <= a[p] -> false
+                i++
+                
+    5)  p
+        6   4   2   8   9   3   9   4   7   6   1
+                j           i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+                
+    6)  p
+        6   4   2   3   9   8   9   4   7   6   1
+                    j           i
+        check : a[i] <= a[p] -> false
+                i++
+                
+    7)  p
+        6   4   2   3   9   8   9   4   7   6   1
+                    j               i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+                
+    8)  p
+        6   4   2   3   4   8   9   9   7   6   1
+                        j               i
+        check : a[i] <= a[p] -> false
+                i++
+                
+    9)  p
+        6   4   2   3   4   8   9   9   7   6   1
+                        j                   i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+                
+    10) p
+        6   4   2   3   4   6   9   9   7   8   1
+                            j                   i
+        check : a[i] <= a[p] -> true
+                j++
+                swap(a[i], a[j])
+                i++
+    
+    after i reaches last, we get
+    
+    p
+    6   4   2   3   4   6   1   9   7   8   9
+                            j               i
+    
+    we swap p with j
+    1   4   2   3   4   6   6   9   7   8   9
+    [                   ]<= p < [           ]
+        first                     second
+    
+    then we repeat same process for first and second subarrays recursively
+    
+**********************************************************************************/
