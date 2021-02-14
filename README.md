@@ -9,5 +9,6 @@
     * [Linked List](https://github.com/ankithkumar99/Competitive_Programming/tree/master/Data_Structures/Linked_List)
     * [Trees](https://github.com/ankithkumar99/Competitive_Programming/tree/master/Data_Structures/Trees)
     * [Graphs](https://github.com/ankithkumar99/Competitive_Programming/tree/master/Data_Structures/Graphs)
+* [Sorting algorithms](https://github.com/ankithkumar99/Competitive_Programming/tree/master/Sorting_Techniques)
     
     
